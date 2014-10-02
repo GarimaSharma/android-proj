@@ -58,6 +58,6 @@
             />
     <import file="custom_rules.xml" optional="true"/>
 
-    <import file="${sdk.dir}/ant/build.xml"/>
+    <import file="${sdk.dir}/tools/ant/build.xml"/>
 
 </project>
