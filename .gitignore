@@ -9,17 +9,4 @@
 */out
 *.DS_Store
 *.patch
-*ant.properties
 
-android-proj-test/bin
-android-proj-test/gen
-android-proj-test/.idea
-android-proj-test/local.properties
-android-proj-test/*.iml
-android-proj-test/out
-android-proj-test/*.ipr
-android-proj-test/*.iws
-android-proj-test/out
-android-proj-test/.DS_Store
-android-proj-test/*.patch
-android-proj-test/ant.properties
