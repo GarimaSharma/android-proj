@@ -2,6 +2,7 @@ package com.test.myapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MyActivity extends Activity {
     /**
@@ -11,6 +12,6 @@ public class MyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        System.out.println("cgyagscagldiuag;");
+        Log.i("myapp", "log aaya re wohhohoo");
     }
 }
