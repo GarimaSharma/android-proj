@@ -13,10 +13,10 @@ public class MyActivity extends Activity  {
         setContentView(R.layout.main);
         logDriver.log("my first log");
         try {
-            Thread.sleep(100);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        logDriver.log("my first log");
+        logDriver.log("my second log");
     }
 }
