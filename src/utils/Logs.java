@@ -13,7 +13,7 @@ public class Logs {
         String apkNumber = "";
         apkNumber = apkName.replace("/data/app/com.test.myapp-", "");
         apkNumber = apkNumber.replace(".apk", "");
-        tag = "package name : " + activity.getPackageName() + " apk name : " + apkName + " apk-number : " +apkNumber;
+        tag = " package name : " + activity.getPackageName() + " ,apk name : " + apkName + " ,apk-number : " +apkNumber;
 
     }
 
