@@ -10,9 +10,10 @@ public class Logs {
 
     public Logs(Activity activity) {
         String apkName = getApkName(activity);
-        apkName = apkName.replace("/data/app/com.test.myapp-", "");
-        apkName = apkName.replace(".apk", "");
-        tag = "package name : " + activity.getPackageName() + " build-number : " + apkName + " ";
+        String apkNumber = "";
+        apkNumber = apkName.replace("/data/app/com.test.myapp-", "");
+        apkNumber = apkNumber.replace(".apk", "");
+        tag = "package name : " + activity.getPackageName() + " apk name : " + apkName + " apk-number : " +apkNumber;
 
     }
 
