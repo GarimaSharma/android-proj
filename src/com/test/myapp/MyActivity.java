@@ -2,58 +2,21 @@ package com.test.myapp;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
+import utils.Logs;
 
-public class MyActivity extends Activity {
-    /**
-     * Called when the activity is first created.
-     */
+public class MyActivity extends Activity  {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Logs logDriver = new Logs(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
-        Log.i("myapp", "log aaya re wohhohoo");
+        logDriver.log("my first log");
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        logDriver.log("my first log");
     }
 }
