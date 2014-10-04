@@ -10,7 +10,7 @@ public class Logs {
 
     public Logs(Activity activity) {
 
-         tag = " package name : " + activity.getPackageName() + " build-number is " +getBuildNumber();
+         tag = " package name : " + activity.getPackageName() + " build-number is " + getBuildNumber() +" device name is : " + android.os.Build.MODEL;
 
     }
 
