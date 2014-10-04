@@ -20,7 +20,9 @@ public class Logs {
         FileInputStream fin = null;
         try {
             fin = new FileInputStream(fl);
-            ret = convertStreamToString(fin);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+            ret = reader.readLine().toString();
+            reader.close();
             fin.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,11 +34,4 @@ public class Logs {
         Log.i(tag, message);
     }
 
-    public String convertStreamToString(InputStream is) throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        String line = reader.readLine();
-        reader.close();
-        return sb.toString();
-    }
 }
