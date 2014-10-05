@@ -1,0 +1,13 @@
+if [[ $1 == "app" ]]
+    then packageName="com.test.myapp"
+  elif [[ $1 == "test" ]]
+    then packageName="com.test.myapp.tests"
+  else
+    echo "wrong use!!"
+    echo "uniinstall app //to uniinstall app apk"
+    echo "uniinstall test //to uniinstall test apk"
+    exit 1
+  fi
+
+adb -s emulator-5554 shell pm uninstall $packageName
+echo "Uninstalled package."

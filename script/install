@@ -25,8 +25,9 @@ echo "pre-install checks"
 if [[ -n $appName ]]
   then
   echo "Required package is already installed. Uninstalling it."
-  adb -s emulator-5554 shell pm uninstall $packageName
-  echo "uninstalled"
-fi
+  ./uninstall $packageName
+  fi
+./install $packageLocation $apkPrefix
+
 echo "Installing.."
 adb -s emulator-5554 install $packageLocation/$apkPrefix-${GO_DEPENDENCY_LABEL_BUILD}.apk
