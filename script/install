@@ -25,7 +25,7 @@ echo "pre-install checks"
 if [[ -n $appName ]]
   then
   echo "Required package is already installed. Uninstalling it."
-  ./uninstall $1
+  bash ./uninstall $1
   fi
 
 echo "Installing.."
