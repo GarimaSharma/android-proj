@@ -4,13 +4,29 @@ set -e
 
 PATH=/usr/local/bin:$PATH
 
-appName=$(adb -s emulator-5554 shell pm list packages \"com.test.myapp\" | sed '/tests/d')
+if [[ $1 == "app" ]]
+    then packageName="com.test.myapp"
+    apkPrefix="android-proj-debug"
+    packageLocation=packages
+    appName=$(adb -s emulator-5554 shell pm list packages \"com.test.myapp\" | sed '/tests/d')
+  elif [[ $1 == "test" ]]
+    then packageName="com.test.myapp.tests"
+    apkPrefix="android-proj-test-debug"
+    packageLocation=test-packages
+    appName=$(adb -s emulator-5554 shell pm list packages \"com.test.myapp.tests\")
+  else
+    echo "wrong use!!"
+    echo "installApk.sh app //to install app apk"
+    echo "installApk.sh test //to install test apk"
+    exit 1
+  fi
 
-echo "app name is ...$appName ..."
+echo "pre-install checks"
 if [[ -n $appName ]]
   then
-  adb -s emulator-5554 shell pm uninstall com.test.myapp
+  echo "Required package is already installed. Uninstalling it."
+  adb -s emulator-5554 shell pm uninstall $packageName
   echo "uninstalled"
 fi
-echo "now installing"
-adb -s emulator-5554 install packages/android-proj-debug-${GO_DEPENDENCY_LABEL_BUILD}.apk
+echo "Installing.."
+adb -s emulator-5554 install $packageLocation/$apkPrefix-${GO_DEPENDENCY_LABEL_BUILD}.apk
