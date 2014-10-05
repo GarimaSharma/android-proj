@@ -2,6 +2,8 @@
 
 set -e
 
+PATH=/usr/local/bin:$PATH
+
 appName=$(adb -s emulator-5554 shell pm list packages \"com.test.myapp\" | sed '/tests/d')
 
 echo "app name is ...$appName ..."
