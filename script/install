@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+appName=$(adb -s emulator-5554 shell pm list packages \"com.test.myapp\" | sed '/tests/d')
+
+echo "app name is ...$appName ..."
+if [[ -n $appName ]]
+  then
+  adb -s emulator-5554 shell pm uninstall com.test.myapp
+  echo "uninstalled"
+fi
+echo "now installing"
+adb -s emulator-5554 install packages/android-proj-debug-${GO_DEPENDENCY_LABEL_BUILD}.apk
