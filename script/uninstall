@@ -9,5 +9,5 @@ if [[ $1 == "app" ]]
     exit 1
   fi
 
-adb -s emulator-5554 shell pm uninstall $packageName
+bash adb -s emulator-5554 shell pm uninstall $packageName
 echo "Uninstalled package."

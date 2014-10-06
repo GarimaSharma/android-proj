@@ -8,12 +8,12 @@ if [[ $1 == "app" ]]
     then packageName="com.test.myapp"
     apkPrefix="android-proj-debug"
     packageLocation=packages
-    appName=$(adb -s emulator-5554 shell pm list packages \"com.test.myapp\" | sed '/tests/d')
+    appName=$(bash adb -s emulator-5554 shell pm list packages \"com.test.myapp\" | sed '/tests/d')
   elif [[ $1 == "test" ]]
     then packageName="com.test.myapp.tests"
     apkPrefix="android-proj-test-debug"
     packageLocation=test-packages
-    appName=$(adb -s emulator-5554 shell pm list packages \"com.test.myapp.tests\")
+    appName=$(bash adb -s emulator-5554 shell pm list packages \"com.test.myapp.tests\")
   else
     echo "wrong use!!"
     echo "installApk.sh app //to install app apk"
