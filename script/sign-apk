@@ -1,0 +1,2 @@
+echo sharma27 | bash /usr/bin/jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Users/garimasharma/myapp-keystore.keystore android-proj-release-${GO_PIPELINE_COUNTER}.apk myapppkey
+bash /usr/local/bin/zipalign -v 4 android-proj-release-${GO_PIPELINE_COUNTER}.apk myapp-release-${GO_PIPELINE_COUNTER}.apk
