@@ -2,4 +2,4 @@
 
 set -e
 
-ps aux | grep $emulator-name
+ps aux | grep ${emulator-name}
