@@ -20,6 +20,7 @@ if [[ $1 == "app" ]]
     echo "installApk.sh test //to install test apk"
     exit 1
   fi
+  buildNumber=$(cat abc.txt)
 
 echo "pre-install checks"
 if [[ -n $appName ]]
@@ -29,4 +30,4 @@ if [[ -n $appName ]]
   fi
 
 echo "Installing.."
-bash adb -s emulator-5554 install ../$packageLocation/$apkPrefix-*
+bash adb -s emulator-5554 install ../$packageLocation/$apkPrefix-$buildNumber.apk
