@@ -2,4 +2,4 @@
 
 set -e
 
-ps aux | grep [n]ew-go
+ps aux | grep $emulator-name
