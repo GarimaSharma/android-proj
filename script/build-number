@@ -1,0 +1,3 @@
+ls ../packages/android-proj-debug* | head -1 > abc.txt
+sed -i .bak 's/..\/packages\/android-proj-debug-//g' abc.txt
+sed -i .bak 's/.apk//g' abc.txt
