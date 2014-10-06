@@ -2,6 +2,7 @@ package com.test.myapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import utils.Logs;
 
 public class MyActivity extends Activity  {
@@ -11,6 +12,7 @@ public class MyActivity extends Activity  {
         Logs logDriver = new Logs(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
         logDriver.log("my first log");
         try {
             Thread.sleep(1000);
@@ -18,5 +20,9 @@ public class MyActivity extends Activity  {
             e.printStackTrace();
         }
         logDriver.log("my second log");
+    }
+
+    public void fail(View view) throws Exception {
+        throw new Exception();
     }
 }

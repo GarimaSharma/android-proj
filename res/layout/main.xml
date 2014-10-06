@@ -10,11 +10,9 @@
             android:text="Hello World, MyActivity"
             android:id="@+id/hello"
             />
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="new test text"
-            android:id="@+id/newText"
-            />
+    <Button android:onClick="fail"
+            android:text="click me and get an exception"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 </LinearLayout>
 
