@@ -1,2 +1,2 @@
-echo no | bash android -s create avd -n command-${GO_PIPELINE_COUNTER} -t 4 --abi default/armeabi-v7a --skin WVGA800 -f
-bash emulator -avd command-${GO_PIPELINE_COUNTER} -no-boot-anim &
+echo no | bash /usr/local/bin/android -s create avd -n command-${GO_PIPELINE_COUNTER} -t 4 --abi default/armeabi-v7a --skin WVGA800 -f
+bash /usr/local/bin/emulator -avd command-${GO_PIPELINE_COUNTER} -no-boot-anim &
