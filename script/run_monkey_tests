@@ -1,0 +1,12 @@
+#!/bin/bash
+bash /usr/local/bin/adb -s emulator-5554 shell monkey -p com.test.myapp -v 1000
+cat test.log
+failure=$(cat test.log | grep -F "Monkey aborted due to error.")
+if [[  -z $failure ]]
+then
+exit 0;
+else
+exit 1;
+fi
+
+
