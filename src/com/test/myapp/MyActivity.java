@@ -2,7 +2,6 @@ package com.test.myapp;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import utils.Logs;
 
 public class MyActivity extends Activity  {
@@ -22,7 +21,4 @@ public class MyActivity extends Activity  {
         logDriver.log("my second log");
     }
 
-    public void fail(View view) throws Exception {
-        throw new Exception();
-    }
 }
