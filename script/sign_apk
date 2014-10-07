@@ -1,2 +1,2 @@
-echo sharma27 | bash /usr/bin/jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Users/garimasharma/myapp-keystore.keystore ../bin/android-proj-release-${COUNTER_FOR_RELEASE}.apk myapppkey
-bash /usr/local/bin/zipalign -v 4 ../bin/android-proj-release-${COUNTER_FOR_RELEASE}.apk ../bin/myapp-release-${GO_PIPELINE_COUNTER}.apk
+echo sharma27 | bash /usr/bin/jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Users/garimasharma/myapp-keystore.keystore ../release-package/bin/android-proj-release-${COUNTER_FOR_RELEASE}.apk myapppkey
+bash /usr/local/bin/zipalign -v 4 ../release-package/bin/android-proj-release-${COUNTER_FOR_RELEASE}.apk ../release-package/bin/myapp-release-${GO_PIPELINE_COUNTER}.apk
