@@ -4,6 +4,8 @@ cp -r libs release-package/
 cp -r res release-package/
 cp ant.properties release-package/
 cp project.properties release-package/
+cp local.properties release-package/
+cp proguard-project.txt release-package/
 cp AndroidManifest.xml release-package/
 cp build.xml release-package/
 
