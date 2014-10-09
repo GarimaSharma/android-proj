@@ -12,6 +12,7 @@ public class MyActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        
         logDriver.log("my first log");
         try {
             Thread.sleep(1000);
