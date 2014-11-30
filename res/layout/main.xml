@@ -8,7 +8,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Hello World, MyActivity"
-            android:id="@+id/hello1"
+            android:id="@+id/hello"
             />
     <TextView
             android:layout_width="fill_parent"
