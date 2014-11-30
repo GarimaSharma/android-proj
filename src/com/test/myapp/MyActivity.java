@@ -18,6 +18,7 @@ public class MyActivity extends Activity  {
             e.printStackTrace();
         }
         logDriver.log("my second log");
+        logDriver.log("my second log");
     }
 
 }
