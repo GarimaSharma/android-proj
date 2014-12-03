@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cruise xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="cruise-config.xsd" schemaVersion="72">
+    <server artifactsdir="artifacts" commandRepositoryLocation="default" serverId="7c484f00-6362-4a40-aa2c-c4aa646a856f" />
+    <pipelines group="defaultGroup">
+        <pipeline name="build" labeltemplate="app-${COUNT}" isLocked="false">
+            <materials>
+                <git url="/Users/garimasharma/projects/android-proj" />
+            </materials>
+            <stage name="unit-tests">
+                <jobs>
+                    <job name="run">
+                        <tasks>
+                            <exec command="bash">
+                                <arg>-cl</arg>
+                                <arg>echo "tests ran successfully"</arg>
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+            <stage name="packaging">
+                <jobs>
+                    <job name="app-apk">
+                        <tasks>
+                            <exec command="/usr/local/bin/ant">
+                                <arg>clean</arg>
+                                <arg>debug</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                        <artifacts>
+                            <artifact src="bin/android-proj-debug*.apk" dest="packages/" />
+                        </artifacts>
+                    </job>
+                    <job name="test-apk">
+                        <tasks>
+                            <exec command="/usr/local/bin/ant" workingdir="android-proj-test">
+                                <arg>debug</arg>
+                            </exec>
+                        </tasks>
+                        <artifacts>
+                            <artifact src="android-proj-test/bin/android-proj-test*.apk" dest="test-packages/" />
+                        </artifacts>
+                    </job>
+                    <job name="scripts">
+                        <tasks>
+                            <exec command="echo">
+                                <arg>packaging scripts</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                        <artifacts>
+                            <artifact src="script" />
+                        </artifacts>
+                    </job>
+                    <job name="release">
+                        <tasks>
+                            <exec command="bash">
+                                <arg>script/release-package</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                        <artifacts>
+                            <artifact src="release-package" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="functional-test" labeltemplate="${build}" isLocked="false">
+            <environmentvariables>
+                <variable name="emulator-name">
+                    <value>[a]-new</value>
+                </variable>
+            </environmentvariables>
+            <materials>
+                <pipeline pipelineName="build" stageName="packaging" />
+            </materials>
+            <stage name="sanity-checking">
+                <jobs>
+                    <job name="emulator">
+                        <tasks>
+                            <fetchartifact pipeline="build" stage="packaging" job="scripts" srcdir="script">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <exec command="bash">
+                                <arg>script/ensure_running</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+            <stage name="installing" cleanWorkingDir="true">
+                <jobs>
+                    <job name="apks">
+                        <tasks>
+                            <fetchartifact pipeline="build" stage="packaging" job="scripts" srcdir="script">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <fetchartifact pipeline="build" stage="packaging" job="app-apk" srcdir="packages">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <fetchartifact pipeline="build" stage="packaging" job="test-apk" srcdir="test-packages">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <exec command="bash" workingdir="script">
+                                <arg>build-number</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="bash" workingdir="script">
+                                <arg>install</arg>
+                                <arg>app</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="bash" workingdir="script">
+                                <arg>install</arg>
+                                <arg>test</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+            <stage name="tests">
+                <jobs>
+                    <job name="run">
+                        <tasks>
+                            <fetchartifact pipeline="build" stage="packaging" job="scripts" srcdir="script">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <exec command="bash" workingdir="script">
+                                <arg>run_robotium_tests</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+            <stage name="uninstall">
+                <jobs>
+                    <job name="app">
+                        <tasks>
+                            <fetchartifact pipeline="build" stage="packaging" job="scripts" srcdir="script">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <exec command="bash" workingdir="script">
+                                <arg>uninstall</arg>
+                                <arg>app</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="bash" workingdir="script">
+                                <arg>uninstall</arg>
+                                <arg>test</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="monkey-test" labeltemplate="${functional-test}" isLocked="false">
+            <environmentvariables>
+                <variable name="emulator-name">
+                    <value>[a]-new</value>
+                </variable>
+            </environmentvariables>
+            <materials>
+                <pipeline pipelineName="functional-test" stageName="uninstall" />
+            </materials>
+            <stage name="sanity-checking">
+                <jobs>
+                    <job name="emulator">
+                        <tasks>
+                            <fetchartifact pipeline="build/functional-test" stage="packaging" job="scripts" srcdir="script">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <exec command="bash">
+                                <arg>script/ensure_running</arg>
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+            <stage name="installing">
+                <jobs>
+                    <job name="app-apk">
+                        <tasks>
+                            <fetchartifact pipeline="build/functional-test" stage="packaging" job="app-apk" srcdir="packages">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <fetchartifact pipeline="build/functional-test" stage="packaging" job="scripts" srcdir="script">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <exec command="bash" workingdir="script">
+                                <arg>build-number</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="bash" workingdir="script">
+                                <arg>install</arg>
+                                <arg>app</arg>
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+            <stage name="run">
+                <jobs>
+                    <job name="test">
+                        <tasks>
+                            <exec command="bash" workingdir="script">
+                                <arg>run_monkey_tests</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <fetchartifact pipeline="build/functional-test" stage="packaging" job="scripts" srcdir="script">
+                                <runif status="passed" />
+                            </fetchartifact>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+            <stage name="uninstalling">
+                <jobs>
+                    <job name="app">
+                        <tasks>
+                            <fetchartifact pipeline="build/functional-test" stage="packaging" job="scripts" srcdir="script">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <exec command="bash" workingdir="script">
+                                <arg>uninstall</arg>
+                                <arg>app</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+            <stage name="release">
+                <approval type="manual" />
+                <jobs>
+                    <job name="trigger">
+                        <tasks>
+                            <exec command="ls" />
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="new-emulator">
+            <materials>
+                <git url="/Users/garimasharma/projects/android-proj" />
+            </materials>
+            <stage name="emulator">
+                <approval type="manual" />
+                <jobs>
+                    <job name="create-start">
+                        <tasks>
+                            <exec command="bash" workingdir="script">
+                                <arg>create_emulator</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+        <pipeline name="release-build">
+            <materials>
+                <pipeline pipelineName="monkey-test" stageName="release" />
+            </materials>
+            <stage name="packaging" cleanWorkingDir="true">
+                <jobs>
+                    <job name="app">
+                        <tasks>
+                            <fetchartifact pipeline="build/functional-test/monkey-test" stage="packaging" job="release" srcdir="release-package">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <fetchartifact pipeline="build/functional-test/monkey-test" stage="packaging" job="scripts" srcdir="script">
+                                <runif status="passed" />
+                            </fetchartifact>
+                            <exec command="/usr/local/bin/ant" workingdir="release-package">
+                                <arg>clean</arg>
+                                <arg>release</arg>
+                                <runif status="passed" />
+                            </exec>
+                            <exec command="bash" workingdir="script">
+                                <arg>sign_apk</arg>
+                                <runif status="passed" />
+                            </exec>
+                        </tasks>
+                        <artifacts>
+                            <artifact src="release/" />
+                        </artifacts>
+                    </job>
+                </jobs>
+            </stage>
+        </pipeline>
+    </pipelines>
+    <environments>
+        <environment name="new">
+            <agents>
+                <physical uuid="0c0e689f-b4fd-40a2-a2e0-a8544435f190" />
+            </agents>
+            <pipelines>
+                <pipeline name="build" />
+                <pipeline name="functional-test" />
+                <pipeline name="monkey-test" />
+                <pipeline name="release-build" />
+            </pipelines>
+        </environment>
+        <environment name="emulator">
+            <agents>
+                <physical uuid="0c0e689f-b4fd-40a2-a2e0-a8544435f190" />
+            </agents>
+            <pipelines>
+                <pipeline name="new-emulator" />
+            </pipelines>
+        </environment>
+    </environments>
+    <agents>
+        <agent hostname="INgarimash.local" ipaddress="192.168.1.2" uuid="0c0e689f-b4fd-40a2-a2e0-a8544435f190" />
+    </agents>
+</cruise>
+
